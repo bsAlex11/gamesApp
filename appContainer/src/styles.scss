@@ -1,0 +1,19 @@
+$bgColor: azure;
+
+body {
+  background-color: $bgColor;
+  display: flex;
+  
+  h1 {
+    font-size: 24px;
+    color: red;
+    background: url('./pic.JPG');
+    background-size: contain;
+    min-height: 500px;
+    width: 100%;
+  }
+
+  .abc {
+    padding-top: 44px;
+  }
+}
