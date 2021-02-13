@@ -1,2 +1,0 @@
-(self.webpackChunkmatch_finder=self.webpackChunkmatch_finder||[]).push([[765],{765:(e,r,n)=>{"use strict";n.r(r),n.d(r,{mount:()=>p});var t=n(271),a=n.n(t),c=n(650),h=n.n(c),p=function(e){h().render(a().createElement("p",null,"match finderrrr appp is hereeerr22333555522"),e)}}}]);
-//# sourceMappingURL=765.bundle.js.map
