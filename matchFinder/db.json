@@ -1,0 +1,9 @@
+{
+  "user": {
+    "id": 1,
+    "firstName": "Abid",
+    "lastName": "Abdul",
+    "age": 34,
+    "userLocation": "Cluj-Napoca"  
+  }
+}

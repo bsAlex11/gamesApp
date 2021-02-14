@@ -3,11 +3,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const path = require('path');
 const packageJson = require('./package.json');
 
-const mode = process.env.NODE_ENV.trim() === 'production' ? 'production' : 'development'
+const mode = process.env.NODE_ENV.trim() === 'production' ? 'production' : 'development';
 
 module.exports = {
   mode: mode,
@@ -17,6 +18,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    assetModuleFilename: 'images/[hash][ext][query]',
   },
   devServer: {
     contentBase: './dist',
@@ -74,13 +76,18 @@ module.exports = {
           },
           'sass-loader',
         ]
-      }
+      },
+      {
+        test: /\.png|jpe?g|gif|svg$/i,
+        type: 'asset',
+      },
     ],
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].css'
     }),

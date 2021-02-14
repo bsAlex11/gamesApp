@@ -1,7 +1,7 @@
-import { useRef, useEffect } from 'react';
-import './matchFinder.d';
+import { useRef, useEffect } from "react";
+import "./matchFinder.d";
 
-import { mount } from 'matchFinderRemote/MatchFinderApp';
+import { mount } from "matchFinderRemote/MatchFinderApp";
 console.log(mount);
 
 const MatchFinder = () => {
@@ -11,8 +11,7 @@ const MatchFinder = () => {
     mount(ref.current);
   }, []);
 
-  return <div ref={ref}/>
+  return <div ref={ref} />;
 };
 
 export default MatchFinder;
-

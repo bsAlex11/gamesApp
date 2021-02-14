@@ -1,1 +1,1 @@
-declare module 'matchFinderRemote/MatchFinderApp';
+declare module "matchFinderRemote/MatchFinderApp";
