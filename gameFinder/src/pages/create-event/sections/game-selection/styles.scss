@@ -1,0 +1,7 @@
+.item {
+  &:hover {
+    border-bottom: 1px solid lightslategray;
+    cursor: pointer;
+    font-weight: bold;
+  }
+}

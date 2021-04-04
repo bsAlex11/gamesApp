@@ -22,7 +22,7 @@ module.exports = {
   },
   devServer: {
     contentBase: './dist',
-    hot: true,
+  ///  hot: true,
     port: 8081,
   },
 
@@ -52,7 +52,12 @@ module.exports = {
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          {
+            loader:MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: path.resolve(__dirname, 'dist'),
+            },
+          },
           {
             loader: 'css-loader',
             options: {
@@ -76,6 +81,10 @@ module.exports = {
           },
           'sass-loader',
         ]
+      },
+      { 
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/, 
+        loader: 'url-loader' 
       },
       {
         test: /\.png|jpe?g|gif|svg$/i,
@@ -104,10 +113,10 @@ module.exports = {
       path: './.env.development'
     }),
     new ModuleFederationPlugin({
-      name: 'matchFinder',
+      name: 'gameFinder',
       filename: 'remoteEntry.js',
       exposes: {
-        './MatchFinderApp': './src/bootstrap'
+        './GameFinderApp': './src/bootstrap'
       },
       shared: packageJson.dependencies
     }),

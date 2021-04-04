@@ -1,16 +1,15 @@
 import React, { FunctionComponent } from "react";
 import ReactDOM from "react-dom";
-import MatchFinder from "./remotes/matchFinder/MatchFinder";
+import GameFinder from "./remotes/matchFinder/GameFinder";
 import styles from "./styles.scss";
 
 const App: FunctionComponent = () => {
-  console.log(process.env.REACT_APP_ABC);
 
   return (
     <>
-      <h1>tesrrrtttt</h1>
+      <h3>tesrrrtttt</h3>
       <p className={styles.abc}>From Contaaainer111</p>
-      <MatchFinder />
+      <GameFinder />
     </>
   );
 };

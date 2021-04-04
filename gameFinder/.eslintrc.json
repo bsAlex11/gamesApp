@@ -9,6 +9,7 @@
     "react-hooks"
   ],
   "extends": [
+    "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended"
   ],
@@ -17,8 +18,21 @@
     "react-hooks/exhaustive-deps": "warn",
     "react/prop-types": "off",
     "@typescript-eslint/no-var-requires": 0,
+    "@typescript-eslint/no-explicit-any": "off",
     "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "react/display-name": "off",
+    "operator-linebreak":"error",
+    "react/jsx-wrap-multilines": ["error", {
+      "declaration": "parens-new-line",
+       "assignment": "parens-new-line",
+       "return": "parens-new-line",
+       "arrow": "parens-new-line",
+       "condition": "parens-new-line",
+       "logical": "parens-new-line",
+       "prop": "parens-new-line"
+     }
+   ]
   },
   "settings": {
     "react": {

@@ -1,0 +1,42 @@
+@import '../../styles/variables';
+
+.container {
+  position: relative;
+  margin: 40px 10px 0 40px;
+  border: 1px solid #d6d6dd;
+  border-radius: 4px;
+  padding: 20px;
+  display: flex;
+  box-shadow: 1px 1px 7px 4px rgba(0, 0, 0, 0.31);
+}
+
+.sideContainer {
+  flex: 1 0 auto;
+  font-family: $secondary-font;
+}
+
+.content {
+  flex: 3;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  font-size: 16px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background-color: #adabab;
+  opacity: 0.5;
+  cursor: not-allowed;
+}

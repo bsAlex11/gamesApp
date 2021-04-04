@@ -82,6 +82,10 @@ module.exports = {
           'sass-loader',
         ]
       },
+      { 
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/, 
+        loader: 'url-loader' 
+      },
       {
         test: /\.png|jpe?g|gif|svg$/i,
         type: 'asset',
@@ -111,7 +115,7 @@ module.exports = {
     new ModuleFederationPlugin({
       name: 'container',
       remotes: {
-        matchFinderRemote: 'matchFinder@http://localhost:8081/remoteEntry.js'
+        gameFinderRemote: 'gameFinder@http://localhost:8081/remoteEntry.js'
       },
       shared: packageJson.dependencies
     }),
