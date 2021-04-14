@@ -1,3 +1,13 @@
 .info {
   margin-bottom: 6px;
 }
+
+.buttonsContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+
+  button:first-of-type {
+    margin-right: 10px;
+  }
+}

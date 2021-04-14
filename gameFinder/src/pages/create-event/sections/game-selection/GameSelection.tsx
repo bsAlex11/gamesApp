@@ -1,23 +1,22 @@
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 
-import useGetGames from '../../hooks/use-get-games/useGetGames';
 import AsyncInputField from '../../../../components/form-fields/async-input-field/AsyncInputField';
+import useGameSelection from '../../hooks/use-game-selection/useGameSelection';
 import SelectedGameDetails from '../../components/selected-game-details/SelectedGameDetails';
-import { transforminitialItemsToGamesList } from '../../helpers/helpers';
+import { IGameData } from '../../helpers/helpers';
 
 import styles from './styles.scss';
 
 const GameSelection: FunctionComponent = () => {
+
   const [inputValue, setInputValue] = useState('');
   const [shouldFetch, setShouldFetch] = useState(false);
-  const [filteredGames, setFilteredGames] = useState([]);
-  const [selectedGame, setSelectedGame] = useState(null);
-console.log(selectedGame, 'selectedGame');
+  const [selectedGame, setSelectedGame] = useState<IGameData | null>();
 
   const [
-    { data: gamesData, error: gameDataError, isLoading, },
-    { refetch: fetchGames }
-  ] = useGetGames(inputValue);
+    { fetchedGames, isFetchLoading, },
+    { fetchGames }
+  ] = useGameSelection(inputValue);
 
   useEffect(() => {
     if (inputValue.length < 3) {
@@ -30,21 +29,21 @@ console.log(selectedGame, 'selectedGame');
   }, [inputValue, fetchGames, shouldFetch]);
 
   useEffect(() => {
-    setFilteredGames(transforminitialItemsToGamesList(gamesData));
-  }, [gamesData])
+    if (!shouldFetch && inputValue) {
+      setSelectedGame(() => fetchedGames?.find(game => game.name === inputValue));
+    }
+  }, [inputValue, shouldFetch]);
 
   useEffect(() => {
-    console.log(inputValue, 'inputValue');
-    
-
-    if (!shouldFetch) {
-      const game =  filteredGames?.find((game) =>{    
-        return game.name === inputValue});
-     
-      setSelectedGame(game);
-      
+    if (!selectedGame) {
+      setShouldFetch(true);
+      setInputValue('');
     }
-  }, [shouldFetch, inputValue, filteredGames])
+  },[selectedGame]);
+
+  // "transform": {
+  //   "^.+\\.[jt]sx?$": "babel-jest"
+  // }
 
   return (
     <>
@@ -58,10 +57,10 @@ console.log(selectedGame, 'selectedGame');
           setShouldFetch(true);
         }}
         name='select'
-        isLoading={isLoading}
+        isLoading={isFetchLoading}
         value={inputValue}
         displayData={() => (
-          filteredGames?.map(option => (
+          fetchedGames?.map(option => (
             <li 
               key={option.name}
               className={styles.item}
@@ -76,11 +75,14 @@ console.log(selectedGame, 'selectedGame');
         )}
       />
       {
-        !shouldFetch && selectedGame && (
-        <SelectedGameDetails
-          name={selectedGame?.name}
-          description={selectedGame?.description}
-        />
+         selectedGame && (
+          <SelectedGameDetails
+            name={selectedGame?.name}
+            description={selectedGame?.description}
+            onCancel={() => {
+              setSelectedGame(null);
+            }}
+          />
       )}
     </>
   );
