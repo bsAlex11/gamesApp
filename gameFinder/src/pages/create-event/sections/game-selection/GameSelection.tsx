@@ -30,8 +30,10 @@ const GameSelection: FunctionComponent = () => {
 
   useEffect(() => {
     if (!shouldFetch && inputValue) {
-      setSelectedGame(() => fetchedGames?.find(game => game.name === inputValue));
+      setSelectedGame(() => fetchedGames?.find((game: IGameData) => game.name === inputValue));
     }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue, shouldFetch]);
 
   useEffect(() => {
@@ -39,11 +41,7 @@ const GameSelection: FunctionComponent = () => {
       setShouldFetch(true);
       setInputValue('');
     }
-  },[selectedGame]);
-
-  // "transform": {
-  //   "^.+\\.[jt]sx?$": "babel-jest"
-  // }
+  }, [selectedGame]);
 
   return (
     <>
@@ -60,16 +58,16 @@ const GameSelection: FunctionComponent = () => {
         isLoading={isFetchLoading}
         value={inputValue}
         displayData={() => (
-          fetchedGames?.map(option => (
+          fetchedGames?.map((game: IGameData) => (
             <li 
-              key={option.name}
+              key={game.name}
               className={styles.item}
-              onClick={() => { 
-                setInputValue(option.name);
+              onClick={() => {
+                setInputValue(game.name);
                 setShouldFetch(false);
               }}
             >
-              {option.name}
+              {game.name}
             </li>
           ))
         )}

@@ -17,13 +17,13 @@ const useGameSelection = (gameName: string) => {
   const [fetchedGames, setFetchedGames] = useState(data);
 
   useEffect(() => {
-    setFetchedGames(data);
-  }, [data, isLoading])
-  
+    setFetchedGames(transforminitialItemsToGamesList(data));
+  }, [data, isLoading]);
 
   return [
     {
-      fetchedGames: transforminitialItemsToGamesList(fetchedGames),
+      fetchedGames,
+      error,
       isFetchLoading: isLoading
     },
     {
