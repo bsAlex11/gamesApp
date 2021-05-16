@@ -6,6 +6,7 @@ import SelectedGameDetails from '../../components/selected-game-details/Selected
 import { IGameData } from '../../helpers/helpers';
 
 import styles from './styles.scss';
+import axios from 'axios';
 
 const GameSelection: FunctionComponent = () => {
 
@@ -13,10 +14,21 @@ const GameSelection: FunctionComponent = () => {
   const [shouldFetch, setShouldFetch] = useState(false);
   const [selectedGame, setSelectedGame] = useState<IGameData | null>();
 
+ // const [fetchedGames, setFetchedGames] = useState<IGameData[] | null>();
+
   const [
     { fetchedGames, isFetchLoading, },
     { fetchGames }
   ] = useGameSelection(inputValue);
+
+  // const getGames = async (inputValue: string) => {
+  //   try {
+  //     const response = await axios.get(`https://api.boardgameatlas.com/api/search?name=${inputValue}&client_id=EBYGaHxiJD`);
+  //     setFetchedGames(response.data.games);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   useEffect(() => {
     if (inputValue.length < 3) {
@@ -24,13 +36,18 @@ const GameSelection: FunctionComponent = () => {
     }
 
     if (shouldFetch) {
-      fetchGames();
+    //  getGames(inputValue);
+    fetchGames();
     }
-  }, [inputValue, fetchGames, shouldFetch]);
+  }, [inputValue, shouldFetch, fetchGames]);
 
   useEffect(() => {
     if (!shouldFetch && inputValue) {
       setSelectedGame(() => fetchedGames?.find((game: IGameData) => game.name === inputValue));
+
+      
+    //  setFetchedGames(null);
+
     }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -79,6 +96,8 @@ const GameSelection: FunctionComponent = () => {
             description={selectedGame?.description}
             onCancel={() => {
               setSelectedGame(null);
+
+            //  setFetchedGames(null);
             }}
           />
       )}
