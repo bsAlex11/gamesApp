@@ -1,6 +1,7 @@
-import React, {FunctionComponent, useState} from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import Card from '../../components/card/Card';
 import Test from '../../components/test';
+import useCreateEvent from './hooks/use-create-event/useCreateEvent';
 import GameSelection from './sections/game-selection/GameSelection';
 
 const CreateEvent: FunctionComponent = () => {
@@ -8,6 +9,26 @@ const CreateEvent: FunctionComponent = () => {
     gameName: 'root',
     eventName: 'aiaiiiiai'
   });
+
+  const [
+    {
+      fetchedGamesData,
+      isLoadingGames,
+      errorFetchedGames
+    },
+    {
+      fetchGamesApiCall
+    }
+  ] = useCreateEvent();
+
+  useEffect(() => {
+    if (fetchGamesApiCall) {
+      fetchGamesApiCall(`https://api.boardgameatlas.com/api/search?name=root&client_id=EBYGaHxiJD`);
+    }
+  }, []);
+
+  console.log(fetchedGamesData, 'fetchedGamesData');
+
 
   const sections = [
     {
