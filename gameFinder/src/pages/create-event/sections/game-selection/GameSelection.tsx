@@ -1,34 +1,20 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, {FunctionComponent, useEffect, useState} from 'react';
 
 import AsyncInputField from '../../../../components/form-fields/async-input-field/AsyncInputField';
-import useGameSelection from '../../hooks/use-game-selection/useGameSelection';
+import useGameSelection from '../../hooks/react-query-iteration/use-game-selection/useGameSelection';
 import SelectedGameDetails from '../../components/selected-game-details/SelectedGameDetails';
-import { IGameData } from '../../helpers/helpers';
+import {IGameData} from '../../helpers/helpers';
 
 import styles from './styles.scss';
-import axios from 'axios';
 
 const GameSelection: FunctionComponent = () => {
-
   const [inputValue, setInputValue] = useState('');
   const [shouldFetch, setShouldFetch] = useState(false);
   const [selectedGame, setSelectedGame] = useState<IGameData | null>();
 
- // const [fetchedGames, setFetchedGames] = useState<IGameData[] | null>();
-
-  const [
-    { fetchedGames, isFetchLoading, },
-    { fetchGames }
-  ] = useGameSelection(inputValue);
-
-  // const getGames = async (inputValue: string) => {
-  //   try {
-  //     const response = await axios.get(`https://api.boardgameatlas.com/api/search?name=${inputValue}&client_id=EBYGaHxiJD`);
-  //     setFetchedGames(response.data.games);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const [{fetchedGames, isFetchLoading}, {fetchGames}] = useGameSelection(
+    inputValue
+  );
 
   useEffect(() => {
     if (inputValue.length < 3) {
@@ -36,21 +22,18 @@ const GameSelection: FunctionComponent = () => {
     }
 
     if (shouldFetch) {
-    //  getGames(inputValue);
-    fetchGames();
+      fetchGames();
     }
   }, [inputValue, shouldFetch, fetchGames]);
 
   useEffect(() => {
     if (!shouldFetch && inputValue) {
-      setSelectedGame(() => fetchedGames?.find((game: IGameData) => game.name === inputValue));
-
-      
-    //  setFetchedGames(null);
-
+      setSelectedGame(() =>
+        fetchedGames?.find((game: IGameData) => game.name === inputValue)
+      );
     }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue, shouldFetch]);
 
   useEffect(() => {
@@ -63,10 +46,10 @@ const GameSelection: FunctionComponent = () => {
   return (
     <>
       <AsyncInputField
-        type="text"
+        type='text'
         minLength={3}
         debounceTimeout={500}
-        placeholder="Search for a game.."
+        placeholder='Search for a game..'
         onChange={(e) => {
           setInputValue(e.target.value);
           setShouldFetch(true);
@@ -74,35 +57,31 @@ const GameSelection: FunctionComponent = () => {
         name='select'
         isLoading={isFetchLoading}
         value={inputValue}
-        displayData={() => (
+        displayData={() =>
           fetchedGames?.map((game: IGameData) => (
-            <li 
+            <li
               key={game.name}
               className={styles.item}
               onClick={() => {
                 setInputValue(game.name);
                 setShouldFetch(false);
-              }}
-            >
+              }}>
               {game.name}
             </li>
           ))
-        )}
+        }
       />
-      {
-         selectedGame && (
-          <SelectedGameDetails
-            name={selectedGame?.name}
-            description={selectedGame?.description}
-            onCancel={() => {
-              setSelectedGame(null);
-
-            //  setFetchedGames(null);
-            }}
-          />
+      {selectedGame && (
+        <SelectedGameDetails
+          name={selectedGame?.name}
+          description={selectedGame?.description}
+          onCancel={() => {
+            setSelectedGame(null);
+          }}
+        />
       )}
     </>
   );
-}
+};
 
 export default GameSelection;
