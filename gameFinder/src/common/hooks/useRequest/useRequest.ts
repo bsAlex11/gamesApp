@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const useRequest = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<AxiosResponse>();
+  const [data, setData] = useState<AxiosResponse<any>>();
   const [error, setError] = useState<AxiosError>();
 
   const apiFetch = async (payload: any) => {

@@ -13,10 +13,10 @@ const useFetchGames = () => {
     }
   ] = useRequest();
 
-  const fetchGamesApiCall = useCallback((url) => {
+  const fetchGamesApiCall = useCallback((value: string) => {
     apiFetch({
       method: 'GET',
-      url
+      url: `https://api.boardgameatlas.com/api/search?name=${value}&client_id=EBYGaHxiJD`,
     });
   }, [apiFetch]);
 
@@ -29,7 +29,7 @@ const useFetchGames = () => {
     {
       fetchGamesApiCall
     }
-  ]
+  ] as const;
 };
 
 export default useFetchGames;

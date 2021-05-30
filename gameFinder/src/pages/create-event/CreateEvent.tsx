@@ -12,30 +12,29 @@ const CreateEvent: FunctionComponent = () => {
 
   const [
     {
-      fetchedGamesData,
+      fetchedGames,
       isLoadingGames,
+      selectedGame,
       errorFetchedGames
     },
     {
+      setSelectedGame,
       fetchGamesApiCall
     }
   ] = useCreateEvent();
-
-  useEffect(() => {
-    if (fetchGamesApiCall) {
-      fetchGamesApiCall(`https://api.boardgameatlas.com/api/search?name=root&client_id=EBYGaHxiJD`);
-    }
-  }, []);
-
-  console.log(fetchedGamesData, 'fetchedGamesData');
-
 
   const sections = [
     {
       title: 'Select a game',
       subtitle: 'Here you can choose a game to play',
       renderContent: () => (
-        <GameSelection />
+        <GameSelection
+          fetchedGames={fetchedGames}
+          fetchGamesApiCall={fetchGamesApiCall}
+          isLoadingGames={isLoadingGames}
+          selectedGame={selectedGame}
+          setSelectedGame={setSelectedGame}
+        />
       )
     }
   ];

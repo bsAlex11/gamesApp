@@ -1,20 +1,33 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
+import React, { Dispatch, FunctionComponent, SetStateAction, useEffect, useState } from 'react';
 
 import AsyncInputField from '../../../../components/form-fields/async-input-field/AsyncInputField';
-import useGameSelection from '../../hooks/react-query-iteration/use-game-selection/useGameSelection';
 import SelectedGameDetails from '../../components/selected-game-details/SelectedGameDetails';
-import {IGameData} from '../../helpers/helpers';
+import { IGameData, transforminitialItemsToGamesList } from '../../helpers/helpers';
 
 import styles from './styles.scss';
 
-const GameSelection: FunctionComponent = () => {
+interface TProps {
+  fetchedGames: any;
+  isLoadingGames: boolean | undefined;
+  selectedGame: IGameData | undefined | null;
+  fetchGamesApiCall: (value: string) => void;
+  setSelectedGame: Dispatch<SetStateAction<IGameData | null | undefined>>;
+}
+
+const GameSelection: FunctionComponent<TProps> = ({
+  fetchedGames: games,
+  isLoadingGames,
+  selectedGame,
+  setSelectedGame,
+  fetchGamesApiCall,
+}: TProps) => {
   const [inputValue, setInputValue] = useState('');
   const [shouldFetch, setShouldFetch] = useState(false);
-  const [selectedGame, setSelectedGame] = useState<IGameData | null>();
+  const [fetchedGames, setFetchedGames] = useState<IGameData[]>([]);
 
-  const [{fetchedGames, isFetchLoading}, {fetchGames}] = useGameSelection(
-    inputValue
-  );
+  useEffect(() => {
+    setFetchedGames(transforminitialItemsToGamesList(games?.games));
+  }, [games]);
 
   useEffect(() => {
     if (inputValue.length < 3) {
@@ -22,9 +35,9 @@ const GameSelection: FunctionComponent = () => {
     }
 
     if (shouldFetch) {
-      fetchGames();
+      fetchGamesApiCall(inputValue);
     }
-  }, [inputValue, shouldFetch, fetchGames]);
+  }, [inputValue, shouldFetch]);
 
   useEffect(() => {
     if (!shouldFetch && inputValue) {
@@ -55,10 +68,10 @@ const GameSelection: FunctionComponent = () => {
           setShouldFetch(true);
         }}
         name='select'
-        isLoading={isFetchLoading}
+        isLoading={isLoadingGames}
         value={inputValue}
         displayData={() =>
-          fetchedGames?.map((game: IGameData) => (
+          !selectedGame && fetchedGames?.map((game: IGameData) => (
             <li
               key={game.name}
               className={styles.item}
@@ -77,6 +90,7 @@ const GameSelection: FunctionComponent = () => {
           description={selectedGame?.description}
           onCancel={() => {
             setSelectedGame(null);
+            setFetchedGames([]);
           }}
         />
       )}

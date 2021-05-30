@@ -1,27 +1,23 @@
 import React from 'react';
-import {render, screen, waitFor} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CreateEvent from './CreateEvent';
-import wrapper from '../../config/react-query-test';
-import nock from 'nock';
-import {renderHook} from '@testing-library/react-hooks';
-import useGetGames from './hooks/use-get-games/useGetGames';
-import {act} from 'react-test-renderer';
+import { act } from 'react-test-renderer';
 import FakeTimers from '@sinonjs/fake-timers';
 
-const axiosMock = jest.fn().mockResolvedValue({games: [{name: 'root'}]});
+const axiosMock = jest.fn().mockResolvedValue({ games: [{ name: 'Root: The Riverfolk Expansion' }] });
 
-// let clock: any;
-// beforeEach(() => {
-//   clock = FakeTimers.install()
-// })
-// afterEach(() => {
-//   clock.uninstall()
-// })
+let clock: any;
+beforeEach(() => {
+  clock = FakeTimers.install()
+})
+afterEach(() => {
+  clock.uninstall()
+})
 
 describe('Game selection card', () => {
   it('should display the card title and description', () => {
-    render(<CreateEvent />, {wrapper});
+    render(<CreateEvent />);
 
     expect(screen.getByText('Select a game')).toBeInTheDocument();
     expect(
@@ -30,7 +26,7 @@ describe('Game selection card', () => {
   });
 
   it('should change the input value correctly', () => {
-    render(<CreateEvent />, {wrapper});
+    render(<CreateEvent />);
     const gameInput = screen.getByPlaceholderText(
       'Search for a game..'
     ) as HTMLInputElement;
@@ -42,13 +38,13 @@ describe('Game selection card', () => {
   });
 
   it('should fetch and display the game name', async () => {
-    const clock = FakeTimers.install();
+    // const clock = FakeTimers.install();
 
     render(<CreateEvent />);
     const gameInput = screen.getByPlaceholderText(
       'Search for a game..'
     ) as HTMLInputElement;
-    userEvent.type(gameInput, 'root');
+    userEvent.type(gameInput, 'Root: The Riverfolk Expansion');
 
     clock.tick(500);
     axiosMock();
