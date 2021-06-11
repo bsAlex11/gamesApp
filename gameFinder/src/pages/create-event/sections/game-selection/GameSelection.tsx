@@ -1,8 +1,18 @@
-import React, { Dispatch, FunctionComponent, SetStateAction, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  FunctionComponent,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState
+} from 'react';
 
 import AsyncInputField from '../../../../components/form-fields/async-input-field/AsyncInputField';
 import SelectedGameDetails from '../../components/selected-game-details/SelectedGameDetails';
-import { IGameData, transforminitialItemsToGamesList } from '../../helpers/helpers';
+import {
+  IGameData,
+  transforminitialItemsToGamesList
+} from '../../helpers/helpers';
 
 import styles from './styles.scss';
 
@@ -19,7 +29,7 @@ const GameSelection: FunctionComponent<TProps> = ({
   isLoadingGames,
   selectedGame,
   setSelectedGame,
-  fetchGamesApiCall,
+  fetchGamesApiCall
 }: TProps) => {
   const [inputValue, setInputValue] = useState('');
   const [shouldFetch, setShouldFetch] = useState(false);
@@ -37,6 +47,8 @@ const GameSelection: FunctionComponent<TProps> = ({
     if (shouldFetch) {
       fetchGamesApiCall(inputValue);
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue, shouldFetch]);
 
   useEffect(() => {
@@ -71,7 +83,8 @@ const GameSelection: FunctionComponent<TProps> = ({
         isLoading={isLoadingGames}
         value={inputValue}
         displayData={() =>
-          !selectedGame && fetchedGames?.map((game: IGameData) => (
+          !selectedGame &&
+          fetchedGames?.map((game: IGameData) => (
             <li
               key={game.name}
               className={styles.item}
