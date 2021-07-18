@@ -1,7 +1,9 @@
+import axios from 'axios';
 import React, {
   Dispatch,
   FunctionComponent,
   SetStateAction,
+  useCallback,
   useEffect,
   useMemo,
   useState
@@ -39,13 +41,29 @@ const GameSelection: FunctionComponent<TProps> = ({
     setFetchedGames(transforminitialItemsToGamesList(games?.games));
   }, [games]);
 
+  // const fetchGamesApiCall =
+  //   (value: string): Promise<any> => {
+  //     return axios.get(`https://api.boardgameatlas.com/api/search?name=${value}&client_id=EBYGaHxiJD`);
+  //   };
+
+  useEffect(() => {
+    fetchGamesApiCall('root');
+  }, []);
+
+  // const fetchData = async () => {
+  //   const res = await fetchGamesApiCall('root');
+  //   console.log(res, 'res');
+
+  //   setFetchedGames(transforminitialItemsToGamesList(res?.data?.games))
+  // }
+
   useEffect(() => {
     if (inputValue.length < 3) {
       return;
     }
 
     if (shouldFetch) {
-      fetchGamesApiCall(inputValue);
+      //  fetchGamesApiCall(inputValue);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,7 +101,7 @@ const GameSelection: FunctionComponent<TProps> = ({
         isLoading={isLoadingGames}
         value={inputValue}
         displayData={() =>
-          !selectedGame &&
+          // !selectedGame &&
           fetchedGames?.map((game: IGameData) => (
             <li
               key={game.name}
