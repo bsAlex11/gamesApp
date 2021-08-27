@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { IGameData } from '../../helpers/helpers';
+import {useState} from 'react';
+import {IGameData} from '../../helpers/helpers';
 import useFetchGames from './useFetchGames/useFetchGames';
 
 const useCreateEvent = () => {
   const [
-    { data: fetchedGames, isLoading, error },
-    { fetchGamesApiCall }
+    {data: fetchedGames, isLoading, error},
+    {fetchGamesApiCall}
   ] = useFetchGames();
 
   const [selectedGame, setSelectedGame] = useState<IGameData | null>();
