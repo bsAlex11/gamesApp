@@ -1,0 +1,13 @@
+.dateWrapper {
+  label {
+    margin-top: -18px;
+  }
+}
+
+.field {
+  margin-bottom: 12px;
+
+  & > div {
+    min-width: 260px;
+  }
+}

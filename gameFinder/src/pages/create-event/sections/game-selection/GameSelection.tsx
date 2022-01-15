@@ -5,50 +5,38 @@ import React, {
   useEffect,
   useState
 } from 'react';
-
 import AsyncInputField from '../../../../components/form-fields/async-input-field/AsyncInputField';
 import SelectedGameDetails from '../../components/selected-game-details/SelectedGameDetails';
+import useGetGames from '../../hooks/react-query-iteration/use-get-games/useGetGames';
 import {
   IGameData,
   transforminitialItemsToGamesList
 } from '../../helpers/helpers';
-
 import styles from './styles.scss';
 
 interface TProps {
-  fetchedGames: any;
-  isLoadingGames: boolean | undefined;
   selectedGame: IGameData | undefined | null;
-  fetchGamesApiCall: (value: string) => void;
+  isEventCreated: boolean;
   setSelectedGame: Dispatch<SetStateAction<IGameData | null | undefined>>;
 }
 
 const GameSelection: FunctionComponent<TProps> = ({
-  fetchedGames: games,
-  isLoadingGames,
   selectedGame,
-  setSelectedGame,
-  fetchGamesApiCall
+  isEventCreated,
+  setSelectedGame
 }: TProps) => {
   const [inputValue, setInputValue] = useState('');
   const [shouldFetch, setShouldFetch] = useState(false);
   const [fetchedGames, setFetchedGames] = useState<IGameData[]>([]);
 
+  const {data, isLoading: isLoadingGames} = useGetGames(inputValue, {
+    shouldFetch
+  });
+  const {games} = data || {};
+
   useEffect(() => {
-    setFetchedGames(transforminitialItemsToGamesList(games?.games));
+    setFetchedGames(transforminitialItemsToGamesList(games));
   }, [games]);
-
-  useEffect(() => {
-    if (inputValue.length < 3) {
-      return;
-    }
-
-    if (shouldFetch) {
-      fetchGamesApiCall(inputValue);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inputValue, shouldFetch]);
 
   useEffect(() => {
     if (!shouldFetch && inputValue) {
@@ -61,11 +49,12 @@ const GameSelection: FunctionComponent<TProps> = ({
   }, [inputValue, shouldFetch]);
 
   useEffect(() => {
-    if (!selectedGame) {
+    if (!selectedGame || isEventCreated) {
       setShouldFetch(true);
       setInputValue('');
+      setSelectedGame(null);
     }
-  }, [selectedGame]);
+  }, [selectedGame, isEventCreated, setSelectedGame]);
 
   return (
     <>

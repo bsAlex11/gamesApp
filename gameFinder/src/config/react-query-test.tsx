@@ -1,20 +1,19 @@
-import React, { FunctionComponent } from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import React from 'react';
+import {QueryClient, QueryClientProvider} from 'react-query';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      enabled: false
+export const createWrapper = () => {
+  const queryClientMock = new QueryClient({
+    defaultOptions: {
+      queries: {
+        enabled: false,
+        retry: false
+      }
     }
-  }
-});
+  });
 
-const wrapper: FunctionComponent = ({children}) => {
-  return (
-    <QueryClientProvider client={queryClient}>
+  return ({children}: any) => (
+    <QueryClientProvider client={queryClientMock}>
       {children}
     </QueryClientProvider>
   );
-}
-
-export default wrapper;
+};

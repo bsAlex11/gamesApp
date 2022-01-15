@@ -8,5 +8,148 @@
       "name": "iddd",
       "id": 2
     }
+  ],
+  "events": [
+    {
+      "showLocation": "no",
+      "privateEvent": "no",
+      "location": "qwdqwd",
+      "dateTime": "2022-01-14T16:49:00.000Z",
+      "game": {},
+      "id": "ckyemywfg00003860ofzmbfnn"
+    },
+    {
+      "dateTime": "11-11-2021",
+      "location": "adasd",
+      "numberOfPlayers": 3,
+      "eventDetails": "fsdfs",
+      "privateEvent": "yes",
+      "showLocation": "yes",
+      "game": {
+        "name": "Catan Card Game",
+        "description": "Cunning and a dash of luck decides who will be the undisputed master of Catan!"
+      },
+      "id": "pYpvNw1"
+    },
+    {
+      "showLocation": "no",
+      "privateEvent": "no",
+      "location": "dfhdf",
+      "dateTime": "2022-01-14T16:56:00.000Z",
+      "game": {},
+      "id": "ckyen7jpu00003866l6lni5fk"
+    },
+    {
+      "showLocation": "yes",
+      "privateEvent": "yes",
+      "location": "dfhdf",
+      "dateTime": "2022-01-14T16:57:00.000Z",
+      "game": {},
+      "id": "ckyen8la200003866ynrnxjqx"
+    },
+    {
+      "dateTime": "11-11-2021",
+      "location": "adasd",
+      "numberOfPlayers": 3,
+      "eventDetails": "fsdfs",
+      "privateEvent": "yes",
+      "showLocation": "yes",
+      "game": {
+        "name": "Catan Card Game",
+        "description": "Cunning and a dash of luck decides who will be the undisputed master of Catan!"
+      },
+      "id": "hm79X8l"
+    },
+    {
+      "dateTime": "11-11-2021",
+      "location": "adasd",
+      "numberOfPlayers": 3,
+      "eventDetails": "fsdfs",
+      "privateEvent": "yes",
+      "showLocation": "yes",
+      "game": {
+        "name": "Catan Card Game",
+        "description": "Cunning and a dash of luck decides who will be the undisputed master of Catan!"
+      },
+      "id": "S0Peqi9"
+    },
+    {
+      "dateTime": "11-11-2021",
+      "location": "adasd",
+      "numberOfPlayers": 3,
+      "eventDetails": "fsdfs",
+      "privateEvent": "yes",
+      "showLocation": "yes",
+      "game": {
+        "name": "Catan Card Game",
+        "description": "Cunning and a dash of luck decides who will be the undisputed master of Catan!"
+      },
+      "id": "2KCcAxb"
+    },
+    {
+      "dateTime": "11-11-2021",
+      "location": "adasd",
+      "numberOfPlayers": 3,
+      "eventDetails": "fsdfs",
+      "privateEvent": "yes",
+      "showLocation": "yes",
+      "game": {
+        "name": "Catan Card Game",
+        "description": "Cunning and a dash of luck decides who will be the undisputed master of Catan!"
+      },
+      "id": "ol-pWQZ"
+    },
+    {
+      "dateTime": "11-11-2021",
+      "location": "adasd",
+      "numberOfPlayers": 3,
+      "eventDetails": "fsdfs",
+      "privateEvent": "yes",
+      "showLocation": "yes",
+      "game": {
+        "name": "Catan Card Game",
+        "description": "Cunning and a dash of luck decides who will be the undisputed master of Catan!"
+      },
+      "id": "qGyWzaS"
+    },
+    {
+      "dateTime": "11-11-2021",
+      "location": "adasd",
+      "numberOfPlayers": 3,
+      "eventDetails": "fsdfs",
+      "privateEvent": "yes",
+      "showLocation": "yes",
+      "game": {
+        "name": "Catan Card Game",
+        "description": "Cunning and a dash of luck decides who will be the undisputed master of Catan!"
+      },
+      "id": "7YFh2kt"
+    },
+    {
+      "dateTime": "11-11-2021",
+      "location": "adasd",
+      "numberOfPlayers": 3,
+      "eventDetails": "fsdfs",
+      "privateEvent": "yes",
+      "showLocation": "yes",
+      "game": {
+        "name": "Catan Card Game",
+        "description": "Cunning and a dash of luck decides who will be the undisputed master of Catan!"
+      },
+      "id": "eT2S0ed"
+    },
+    {
+      "dateTime": "11-11-2021",
+      "location": "adasd",
+      "numberOfPlayers": 3,
+      "eventDetails": "fsdfs",
+      "privateEvent": "yes",
+      "showLocation": "yes",
+      "game": {
+        "name": "Catan Card Game",
+        "description": "Cunning and a dash of luck decides who will be the undisputed master of Catan!"
+      },
+      "id": "saBJh3M"
+    }
   ]
 }

@@ -1,22 +1,25 @@
-import { useQuery } from "react-query";
-import { GET_GAMES_BY_NAME } from './../../api/queries';
-import { getGamesByName } from '../../api/requests';
+import {useQuery} from 'react-query';
+import {GET_GAMES_BY_NAME} from '../api/queries';
+import {getGamesByName} from '../api/requests';
 
-const useGetGames = (gameName: string) => {
-  const { data, isLoading, error, refetch } = useQuery<any, Error>([GET_GAMES_BY_NAME, gameName], () => getGamesByName(gameName), {
-    enabled: false
-  });
+type TConfig = {
+  shouldFetch?: boolean;
+};
 
-  return [
+const useGetGames = (gameName: string, {shouldFetch}: TConfig) => {
+  const {data, isLoading, error} = useQuery<any, Error>(
+    [GET_GAMES_BY_NAME, gameName],
+    () => getGamesByName(gameName),
     {
-      data,
-      error,
-      isLoading,
-    },
-    {
-      refetch
+      enabled: gameName.length >= 3 && shouldFetch
     }
-  ] as const;
+  );
+
+  return {
+    data,
+    error,
+    isLoading
+  };
 };
 
 export default useGetGames;

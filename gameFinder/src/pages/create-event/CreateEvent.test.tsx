@@ -1,110 +1,70 @@
-import React from 'react';
-import {render, screen} from '@testing-library/react';
+import {act} from '@testing-library/react';
 import {renderHook} from '@testing-library/react-hooks';
-import userEvent from '@testing-library/user-event';
-import CreateEvent from './CreateEvent';
-import {act} from 'react-test-renderer';
-import FakeTimers from '@sinonjs/fake-timers';
 import axios from 'axios';
-import useFetchGames from './hooks/use-create-event/useFetchGames/useFetchGames';
-import mockAdapter from 'axios-mock-adapter';
+import createMock from 'axios-mock-adapter';
+import {createWrapper} from '../../config/react-query-test';
+import useSubmitEventForm from './hooks/use-create-event/use-submit-event-form/useSubmitEventForm';
 
-const gamesFetchAxiosInstance = axios.create({
-  baseURL: 'https://api.boardgameatlas.com'
-  //  method: 'GET'
-});
-const mockAxios = new mockAdapter(gamesFetchAxiosInstance);
+const mockAdapter = new createMock(axios);
 
-// jest.mock('axios');
-// const mockedAxios = mockAxios as jest.Mocked<typeof axios>;
+const mockFormValues = {
+  dateTime: ('11-11-2021' as unknown) as Date,
+  location: 'adasd',
+  numberOfPlayers: 3,
+  eventDetails: 'fsdfs',
+  privateEvent: 'yes',
+  showLocation: 'yes',
+  game: {
+    name: 'Catan Card Game',
+    description:
+      'Cunning and a dash of luck decides who will be the undisputed master of Catan!'
+  }
+};
+const defaultErrorResponse = {
+  success: false,
+  error: {
+    code: '',
+    message: 'technical message',
+    key: 'error-key'
+  }
+};
 
-describe('Game selection card', () => {
+describe('Event create and update', () => {
   afterEach(() => {
-    // mockAxios.restore();
+    mockAdapter.reset();
   });
 
-  it('should display the card title and description', () => {
-    render(<CreateEvent />);
+  it('should submit the form', async () => {
+    mockAdapter.onPost(/events/).reply(200, mockFormValues);
 
-    expect(screen.getByText('Select a game')).toBeInTheDocument();
-    expect(
-      screen.getByText('Here you can choose a game to play')
-    ).toBeInTheDocument();
-  });
-
-  it('should change the input value correctly', () => {
-    render(<CreateEvent />);
-    const gameInput = screen.getByPlaceholderText(
-      'Search for a game..'
-    ) as HTMLInputElement;
-
-    act(() => {
-      userEvent.type(gameInput, 'new game');
+    const {result, waitFor} = renderHook(() => useSubmitEventForm(), {
+      wrapper: createWrapper()
     });
-    expect(gameInput.value).toBe('new game');
-  });
+    const [, {mutate}] = result.current;
 
-  // it('should fetch games and return the correct data', async () => {
-  //   const {result, waitForNextUpdate} = renderHook(() => useCreateEvent());
-
-  //   result.current[1].fetchGamesApiCall('Root');
-  //   await waitForNextUpdate();
-
-  //   expect(result.current[0].fetchedGames?.games[0].name).toBe('Root');
-  // });
-
-  it('should fetch and display the game in a list', async () => {});
-
-  it('should render the game description and buttons after selecting a game', async () => {
-    const clock = FakeTimers.install();
-    // render(<CreateEvent />);
-    // mockAxios.mockResolvedValueOnce({
-    //   data: {
-    //     games: [
-    //       {
-    //         name: 'Roott',
-    //         description: 'a game about...'
-    //       }
-    //     ]
-    //   }
-    // });
-    // expect(mockAxios.get).toHaveBeenCalled();
-
-    // const element = await screen.findByText('Roott');
-    // expect(element).toBeInTheDocument();
-
-    // act(() => {
-    //   userEvent.click(element);
-    // });
-
-    // expect(await screen.findByText('is a game about..')).toBeInTheDocument();
-  });
-
-  it('should return the correct values', async () => {
-    const {result, waitForNextUpdate} = renderHook(() => useFetchGames());
-    const mockedData = {
-      data: {
-        games: [
-          {
-            name: 'Root',
-            description: 'a game about...'
-          }
-        ]
-      }
-    };
-    mockAxios.onOptions().replyOnce(200, mockedData);
-
-    act(() => {
-      result.current[1].fetchGamesApiCall('Root');
+    await act(async () => {
+      await mutate(mockFormValues);
+      expect(result.current[0].isLoading).toEqual(true);
     });
-    await waitForNextUpdate();
-    // console.log(result.current[0].data, 'daataaa');
-    expect(jest.spyOn(mockAxios, 'onOptions')).toHaveBeenCalled();
 
-    expect(result.current[0].data.games[0].name).toBe('Root');
-    expect(result.current[0].data.games[0].description).toBe('a game about...');
+    await waitFor(() => result.current[0].isLoading === false);
 
-    // const element = await screen.findByText('Roott');
-    // expect(element).toBeInTheDocument();
+    expect(result.current[0].data).toEqual(mockFormValues);
+  });
+
+  it('should return an error when submit fails', async () => {
+    mockAdapter.onPost(/events/).reply(500, defaultErrorResponse);
+
+    const {result, waitFor} = renderHook(() => useSubmitEventForm(), {
+      wrapper: createWrapper()
+    });
+    const [, {mutate}] = result.current;
+
+    await mutate(mockFormValues);
+    await waitFor(() => result.current[0].isLoading === false);
+
+    expect(result.current[0].data?.response.data.error.message).toBe(
+      defaultErrorResponse.error.message
+    );
   });
 });

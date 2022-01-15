@@ -1,25 +1,38 @@
 import {useState} from 'react';
 import {IGameData} from '../../helpers/helpers';
-import useFetchGames from './useFetchGames/useFetchGames';
+import useSubmitEventForm from './use-submit-event-form/useSubmitEventForm';
+import cuid from 'cuid';
+import {TEventFormValues} from '../../types';
 
 const useCreateEvent = () => {
   const [
-    {data: fetchedGames, isLoading, error},
-    {fetchGamesApiCall}
-  ] = useFetchGames();
+    {isLoading: isFormSubmitLoading, isSuccess: isEventCreated},
+    {mutate: submitEventForm}
+  ] = useSubmitEventForm();
 
   const [selectedGame, setSelectedGame] = useState<IGameData | null>();
+  const onSubmitHandler = (values: TEventFormValues) => {
+    const formValues = {
+      ...values,
+      game: {
+        name: selectedGame?.name,
+        description: selectedGame?.description
+      },
+      id: cuid()
+    };
+
+    submitEventForm(formValues);
+  };
 
   return [
     {
-      fetchedGames,
-      isLoadingGames: isLoading,
-      errorFetchedGames: error,
-      selectedGame
+      selectedGame,
+      isFormSubmitLoading,
+      isEventCreated
     },
     {
       setSelectedGame,
-      fetchGamesApiCall
+      onSubmitHandler
     }
   ] as const;
 };
